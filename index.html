@@ -456,7 +456,7 @@ document.getElementById('btn-start-game').addEventListener('click',()=>{showScre
 // ============================================================
 function updateUI(){
   const hs=document.getElementById('header-status');
-  let p=[`Time: <span>${G.timeMark}</span>`,`Bag: <span>${G.bag.length}</span>`,`1st: <span>${firstPlayerName()}</span>`,`Dest: <span>${G.shipDestination}</span>`];
+  let p=[`Time: <span>${G.timeMark}</span>`,`Bag: <span>${G.bag.length}</span>`,`1st: <span>${firstPlayerName()}</span>`,`<br>Dest: <span>${G.shipDestination}</span>`];
   if(!G.nest.destroyed)p.push(`Eggs: <span>${G.nest.eggs}</span>`);
   else p.push(`Nest: <span class="hl-warn">GONE</span>`);
   if(G.selfDestruct.active)p.push(`SD: <span class="hl-warn">${G.selfDestruct.timer}${G.selfDestruct.unstoppable?' \u26A0':''}</span>`);
