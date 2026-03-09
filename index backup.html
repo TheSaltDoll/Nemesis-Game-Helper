@@ -312,7 +312,7 @@ const VENT_TABLE=[
 // GAME STATE
 // ============================================================
 let G={};
-function freshState(){return{numPlayers:0,players:[],firstPlayer:1,timeMark:15,bag:[],supply:[],escapePods:[],engines:{1:'',2:'',3:''},coordinates:{},shipDestination:'B',nest:{eggs:5,destroyed:false},weaknesses:{characterCorpse:null,intruderEgg:null,intruderCarcass:null},discoveredWeaknesses:[],discardedWeaknessTypes:[],eventDraw:[],eventDiscard:[],removedEvents:[],alertDeck:[],currentAlert:null,selfDestruct:{active:false,timer:6,unstoppable:false},turretCount:0,malfunctionCount:0,fireCount:0,queenKilled:false,phase:'player',gameOver:false,shuttleRooms:{top:'',middle:'',bottom:''}}}
+function freshState(){return{numPlayers:0,players:[],firstPlayer:1,timeMark:15,bag:[],supply:[],escapePods:[],engines:{1:'',2:'',3:''},coordinates:{},shipDestination:'B',nest:{eggs:5,destroyed:false},weaknesses:{characterCorpse:null,intruderEgg:null,intruderCarcass:null},discoveredWeaknesses:[],eventDraw:[],eventDiscard:[],removedEvents:[],alertDeck:[],currentAlert:null,selfDestruct:{active:false,timer:6,unstoppable:false},turretCount:0,phase:'player',gameOver:false,shuttleRooms:{top:'',middle:'',bottom:''}}}
 let debugOn=false;
 
 // ============================================================
@@ -461,8 +461,6 @@ function updateUI(){
   let row2=[`Dest: <span>${G.shipDestination}</span>`];
   if(!G.nest.destroyed)row2.push(`Eggs: <span>${G.nest.eggs}</span>`);
   else row2.push(`Nest: <span class="hl-warn">GONE</span>`);
-  row2.push(`Mal: <span${G.malfunctionCount>=7?' class="hl-warn"':''}>${G.malfunctionCount}</span>`);
-  row2.push(`Fire: <span${G.fireCount>=7?' class="hl-warn"':''}>${G.fireCount}</span>`);
   if(G.selfDestruct.active)row2.push(`SD: <span class="hl-warn">${G.selfDestruct.timer}${G.selfDestruct.unstoppable?' \u26A0':''}</span>`);
   if(G.currentAlert)row2.push(`Alert: <span class="hl-warn">${G.currentAlert.timer}</span>`);
   hs.innerHTML=`<div class="status-row">${row1.join(' | ')}</div><div class="status-row">${row2.join(' | ')}</div>`;
@@ -504,7 +502,6 @@ function buildActions(){
     {id:'check-coords',l:'Check Coordinates',d:'Privately view coordinate mappings',c:'act-green'},
     {id:'set-dest',l:'Set Destination',d:'Change the ship\u2019s destination letter',c:'act-green'},
     {id:'self-destruct',l:'Self Destruct',d:'Start or stop the self-destruct timer',c:'act-orange'},
-    {id:'malf-fire',l:'Malfunction / Fire',d:'Adjust malfunction and fire counters',c:'act-orange'},
     {s:'Escape & Survival'},
     {id:'lock-pod',l:'Lock / Unlock Escape Pod',d:'Toggle an escape pod\u2019s lock status',c:'act-purple'},
     {id:'enter-pod',l:'Enter Escape Pod',d:'Place 1\u20132 players in an unlocked pod',c:'act-purple'},
@@ -528,25 +525,10 @@ function buildActions(){
 
 function handleAction(id){
   if(G.gameOver){msg('Game Over','The game has ended.');return}
-  const fn={encounter:doEncounter,retreat:doRetreat,'check-engine':doCheckEngine,'repair-engine':doRepairEngine,'check-coords':doCheckCoords,'set-dest':doSetDest,'self-destruct':doSelfDestruct,'malf-fire':doMalfFire,'lock-pod':doLockPod,'enter-pod':doEnterPod,'launch-pod':doLaunchPod,hibernation:doHibernation,eggs:doEggs,weakness:doWeakness,'player-dies':doPlayerDies,explore:doExplore,attack:doAttack,'intruder-attack':doIntruderAttack,crawl:doCrawl,'end-phase':doEndPlayerPhase};
+  const fn={encounter:doEncounter,retreat:doRetreat,'check-engine':doCheckEngine,'repair-engine':doRepairEngine,'check-coords':doCheckCoords,'set-dest':doSetDest,'self-destruct':doSelfDestruct,'lock-pod':doLockPod,'enter-pod':doEnterPod,'launch-pod':doLaunchPod,hibernation:doHibernation,eggs:doEggs,weakness:doWeakness,'player-dies':doPlayerDies,explore:doExplore,attack:doAttack,'intruder-attack':doIntruderAttack,crawl:doCrawl,'end-phase':doEndPlayerPhase};
   if(fn[id])fn[id]();
 }
 function msg(title,text){showOverlay(`<div class="result-card"><div class="result-type-label">${title}</div><div class="result-message centered">${text}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`)}
-
-function checkCatastrophe(){
-  if(G.malfunctionCount>=9||G.fireCount>=9){
-    G.gameOver=true;
-    const cause=G.malfunctionCount>=9?'Malfunctions':'Fire';
-    let fates=G.players.map(p=>{
-      if(!p.alive)return`<span style="color:var(--danger)">${p.name}: Dead</span>`;
-      if(p.inEscapePod){const pod=G.escapePods.find(x=>x.occupants.includes(p.number));return`<span style="color:var(--accent)">${p.name}: Escaped (Pod ${pod?pod.id:'?'})</span>`}
-      return`<span style="color:var(--danger)">${p.name}: Dead (on ship)</span>`;
-    }).join('<br>');
-    showOverlay(`<div class="result-card"><div class="result-type-label">Catastrophe</div><div class="result-message centered" style="border-color:var(--danger)"><em style="color:var(--danger)">${cause} have reached 9 \u2014 THE SHIP IS DESTROYED!</em><br><br>Malfunctions: ${G.malfunctionCount} | Fire: ${G.fireCount}<br><br><div style="padding-top:8px;border-top:1px solid var(--border);text-align:left;font-size:11px;line-height:1.8">${fates}</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();updateUI()">End Game</button></div></div>`);
-    return true;
-  }
-  return false;
-}
 
 function buildShipSummary(){
   const dest=G.coordinates[G.shipDestination];
@@ -707,26 +689,6 @@ function doSelfDestruct(){
 }
 
 // ============================================================
-// MALFUNCTION / FIRE
-// ============================================================
-function doMalfFire(){
-  window._malfFireContext=null;
-  showMalfFireScreen();
-}
-function showMalfFireScreen(context){
-  const nextBtn=context?`<button class="overlay-btn primary" onclick="${context}">Done</button>`:`<button class="overlay-btn" onclick="hideOverlay()">Done</button>`;
-  showOverlay(`<div class="result-card"><div class="result-type-label">Malfunction / Fire</div><div class="result-message centered">
-    <div style="margin-bottom:12px"><span style="color:var(--warn)">Malfunctions:</span> <em style="color:${G.malfunctionCount>=7?'var(--danger)':'var(--accent)'};font-size:20px" id="malf-val">${G.malfunctionCount}</em></div>
-    <div class="type-options" style="margin:0 0 16px"><button class="type-btn" style="color:var(--accent);border-color:var(--accent)" onclick="adjMalf(1)">+</button><button class="type-btn" style="color:var(--danger);border-color:var(--danger)" ${G.malfunctionCount<=0?'disabled':''} onclick="adjMalf(-1)">\u2212</button></div>
-    <div style="margin-bottom:12px"><span style="color:var(--warn)">Fire:</span> <em style="color:${G.fireCount>=7?'var(--danger)':'var(--accent)'};font-size:20px" id="fire-val">${G.fireCount}</em></div>
-    <div class="type-options" style="margin:0"><button class="type-btn" style="color:var(--accent);border-color:var(--accent)" onclick="adjFire(1)">+</button><button class="type-btn" style="color:var(--danger);border-color:var(--danger)" ${G.fireCount<=0?'disabled':''} onclick="adjFire(-1)">\u2212</button></div>
-  </div><div class="overlay-actions">${nextBtn}</div></div>`);
-}
-window._malfFireContext=null;
-window.adjMalf=function(d){G.malfunctionCount=Math.max(0,G.malfunctionCount+d);if(!checkCatastrophe())showMalfFireScreen(window._malfFireContext)};
-window.adjFire=function(d){G.fireCount=Math.max(0,G.fireCount+d);if(!checkCatastrophe())showMalfFireScreen(window._malfFireContext)};
-
-// ============================================================
 // LOCK/UNLOCK POD
 // ============================================================
 function doLockPod(){
@@ -809,14 +771,7 @@ window.chgEggs=function(d){
 // ============================================================
 function doWeakness(){
   const types=[{k:'characterCorpse',l:'Character Corpse'},{k:'intruderEgg',l:'Intruder Egg'},{k:'intruderCarcass',l:'Intruder Carcass'}];
-  const btns=types.map(t=>{
-    const disc=G.discoveredWeaknesses.includes(t.k);
-    const gone=G.discardedWeaknessTypes.includes(t.k);
-    const disabled=disc||gone;
-    const label=gone?t.l+' (lost)':disc?t.l+' \u2713':t.l;
-    const col=disabled?'var(--text-dim)':'var(--warn)';const bc=disabled?'var(--border)':'var(--warn)';
-    return`<button class="type-btn" style="color:${col};border-color:${bc}" ${disabled?'disabled':''} onclick="revealWeak('${t.k}')">${label}</button>`;
-  }).join('');
+  const btns=types.map(t=>{const disc=G.discoveredWeaknesses.includes(t.k);return`<button class="type-btn" style="color:${disc?'var(--text-dim)':'var(--warn)'};border-color:${disc?'var(--border)':'var(--warn)'}" ${disc?'disabled':''} onclick="revealWeak('${t.k}')">${t.l}${disc?' \u2713':''}</button>`}).join('');
   let discovered='';
   if(G.discoveredWeaknesses.length){
     const items=G.discoveredWeaknesses.map(k=>{const t=types.find(x=>x.k===k);const w=G.weaknesses[k];return`<div style="padding:6px 0;border-bottom:1px solid var(--border)"><div style="color:var(--warn);font-size:12px;font-weight:bold">${t?t.l:k}</div><div style="color:var(--accent);font-size:11px;margin-top:2px">${w.name}</div><div style="color:var(--text-dim);font-size:10px;margin-top:2px">${w.effect}</div></div>`}).join('');
@@ -859,23 +814,14 @@ function doExplore(){
       else results.push(item);
     }
   });
-  // Item count: 1(20%), 2(30%), 3(30%), 4(20%)
-  const itemRoll=Math.random();
-  const itemCount=itemRoll<0.2?1:itemRoll<0.5?2:itemRoll<0.8?3:4;
-
-  let html=`<div style="padding:6px 0;border-bottom:1px solid var(--border);color:var(--accent)">Items available: <em>${itemCount}</em></div>`;
-  if(!results.length){
-    html+=`<div style="padding:6px 0;color:var(--text-dim)">No other discoveries.</div>`;
-  }
+  if(!results.length){msg('Explore Room','Nothing found. The room appears empty.');return}
+  let html='';
   results.forEach(r=>{
     let extra='';
-    if(r.name==='Malfunction'){G.malfunctionCount++;extra=` <span style="color:var(--text-dim)">(Total: ${G.malfunctionCount})</span>`}
-    if(r.name==='Fire'){G.fireCount++;extra=` <span style="color:var(--text-dim)">(Total: ${G.fireCount})</span>`}
     if(r.name==='Turret'){G.turretCount++;const st=TURRET_STATUSES[rd(3)];extra=`<br>Status: <em style="color:var(--accent)">${st}</em><br><span style="color:var(--warn);font-size:18px">Turrets cannot be placed in the Nest or Room Covered with Slime.</span>`}
     html+=`<div style="padding:6px 0;border-bottom:1px solid var(--border)">${r.name}${extra}</div>`;
   });
-  updateUI();
-  showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();checkCatastrophe()">OK</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
 }
 
 // ============================================================
@@ -883,10 +829,7 @@ function doExplore(){
 // ============================================================
 function doAttack(){
   const types=['Adult','Creeper','Queen','Breeder'];
-  const btns=types.map(t=>{
-    const dis=(t==='Queen'&&G.queenKilled)?'disabled':'';
-    return`<button class="type-btn" data-type="${t}" ${dis} onclick="rollHealth('${t}')">${t}${t==='Queen'&&G.queenKilled?' (dead)':''}</button>`;
-  }).join('');
+  const btns=types.map(t=>`<button class="type-btn" data-type="${t}" onclick="rollHealth('${t}')">${t}</button>`).join('');
   showOverlay(`<div class="result-card"><div class="result-type-label">Attack Intruder</div><div class="private-prompt">What type is being attacked?</div><div class="type-options">${btns}</div><div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
 }
 window.rollHealth=function(type){
@@ -899,18 +842,8 @@ window.rollHealth=function(type){
     const corr=rd(4)+1;
     showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">The ${type} <em style="color:var(--warn)">RETREATS</em>!<br>Corridor: <em style="color:var(--accent);font-size:16px">${corr}</em><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
   } else {
-    // For Queen: ask if killed
-    const queenAsk=(type==='Queen')?`<div class="overlay-actions" style="margin-top:10px"><button class="overlay-btn danger" onclick="queenKilled()">Queen Was Killed</button></div>`:'';
-    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">Health: <em style="color:var(--danger);font-size:20px">${result}</em>${weakNote}<br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div>${queenAsk}<div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">Health: <em style="color:var(--danger);font-size:20px">${result}</em>${weakNote}<br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
   }
-};
-window.queenKilled=function(){
-  G.queenKilled=true;
-  // Remove queen token from bag and supply entirely
-  G.bag=G.bag.filter(t=>t.name!=='Queen');
-  G.supply=G.supply.filter(t=>t.name!=='Queen');
-  updateUI();
-  msg('Queen Killed','The Queen has been killed! Her token is removed from the game.');
 };
 
 // ============================================================
@@ -1095,35 +1028,27 @@ window.eventRollMove=function(moveType){
   }
 };
 
-// --- STEP 7: Draw Event + Alert Check ---
+// --- STEP 7: Draw Event ---
 function eventStep7_EventAndAlert(){
+  // --- Event Draw ---
+  let eventHtml='';
   if(G.eventDraw.length===0){G.eventDraw=shuffle([...G.eventDiscard]);G.eventDiscard=[]}
   if(G.eventDraw.length===0){
-    doAlertCheckAndShow('No events remaining in the deck.');
-    return;
-  }
-  const event=G.eventDraw.shift();
-  let removeMsg='';
-  if(event.remove){
-    G.removedEvents.push(event);
-    G.eventDraw=shuffle([...G.eventDraw,...G.eventDiscard]);G.eventDiscard=[];
-    removeMsg='<br><em style="color:var(--warn)">REMOVED from game. Deck reshuffled.</em>';
+    eventHtml='<div style="padding:8px 0;color:var(--text-dim)">No events remaining in the deck.</div>';
   } else {
-    G.eventDiscard.push(event);
+    const event=G.eventDraw.shift();
+    let extraMsg='';
+    if(event.remove){
+      G.removedEvents.push(event);
+      G.eventDraw=shuffle([...G.eventDraw,...G.eventDiscard]);G.eventDiscard=[];
+      extraMsg='<br><em style="color:var(--warn);font-size:18px">REMOVED from game. Deck reshuffled.</em>';
+    } else {
+      G.eventDiscard.push(event);
+    }
+    eventHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;letter-spacing:2px;color:var(--creeper)">${event.name}</div><div style="font-size:18px;line-height:1.5;color:var(--text-dim)">${event.text}${extraMsg}</div>`;
   }
-  const baseHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;letter-spacing:2px;color:var(--creeper)">${event.name}</div><div style="font-size:18px;line-height:1.5;color:var(--text-dim)">${event.text}${removeMsg}</div>`;
-  window._eventBaseHtml=baseHtml;
 
-  // Check for interactive events
-  const handler=EVENT_HANDLERS[event.name];
-  if(handler){
-    handler(baseHtml);
-  } else {
-    doAlertCheckAndShow(baseHtml);
-  }
-}
-
-function doAlertCheckAndShow(eventHtml){
+  // --- Alert Check ---
   let alertHtml='';
   const alertRoll=Math.random();
   const alertBlocked=G.currentAlert||G.timeMark<=8||G.alertDeck.length===0;
@@ -1132,129 +1057,13 @@ function doAlertCheckAndShow(eventHtml){
     G.currentAlert={name:alert.name,text:alert.text,timer:5};
     alertHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;letter-spacing:2px;color:var(--danger)">\u26A0 ALERT TRIGGERED!</div><div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;color:var(--warn)">${G.currentAlert.name}</div><div style="font-size:18px;line-height:1.5;color:var(--text-dim)">${G.currentAlert.text}<br>Alert Timer: <em style="color:var(--danger)">5</em></div>`;
   } else {
-    const reason=G.currentAlert?'An alert is already active.':G.timeMark<=8?'Alerts ignored at Time Mark 8 or lower.':G.alertDeck.length===0?'No alerts remaining.':'No alert triggered.';
+    const reason=G.currentAlert?'An alert is already active.':G.timeMark<=8?'Alerts are ignored at Time Mark 8 or lower.':G.alertDeck.length===0?'No alerts remaining.':'No alert triggered.';
     alertHtml=`<div style="color:var(--text-dim);font-size:18px">${reason}</div>`;
   }
+
   updateUI();
   showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Event & Alert</div><div class="result-message"><div style="padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--border)"><div style="font-family:var(--font-display);font-size:18px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Event Card</div>${eventHtml}</div><div><div style="font-family:var(--font-display);font-size:18px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Alert Check</div>${alertHtml}</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep9_BagDev()">Next</button></div></div>`);
 }
-
-// Interactive event: show event with special actions, then proceed
-function showEventInteractive(eventHtml,extraHtml,nextFn){
-  updateUI();
-  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Event</div><div class="result-message">${eventHtml}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">${extraHtml}</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${nextFn}">Continue</button></div></div>`);
-}
-
-const EVENT_HANDLERS={
-  'Hatching':function(html){
-    if(!G.nest.destroyed&&G.nest.eggs>0)G.nest.eggs--;
-    if(G.nest.eggs<=0&&!G.nest.destroyed){G.nest.eggs=0;G.nest.destroyed=true}
-    const eggMsg=G.nest.destroyed?'Nest eggs reduced. Nest is now <em style="color:var(--danger)">DESTROYED</em>.':'Nest eggs reduced to <em>'+G.nest.eggs+'</em>.';
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Hatching</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">${eggMsg}<br><br>Does a Larva Token need to be put into the bag?</div></div><div class="overlay-actions"><button class="overlay-btn" style="border-color:var(--accent);color:var(--accent)" onclick="hatchingLarva(true)">Yes</button><button class="overlay-btn" onclick="hatchingLarva(false)">No</button></div></div>`);
-  },
-  'Coolant Leak':function(html){
-    if(G.selfDestruct.active){
-      showEventInteractive(html,'Self-Destruct is already active.','doAlertCheckAndShow(window._eventBaseHtml)');
-    } else {
-      showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Coolant Leak</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Start the Self-Destruct countdown?</div></div><div class="overlay-actions"><button class="overlay-btn danger" onclick="G.selfDestruct={active:true,timer:6,unstoppable:false};updateUI();doAlertCheckAndShow(window._eventBaseHtml)">Start Self-Destruct</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">No</button></div></div>`);
-    }
-  },
-  'Short Circuit':function(html){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Short Circuit</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Adjust Malfunction count as needed, then Continue.</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="window._malfFireContext='doAlertCheckAndShow(window._eventBaseHtml)';showMalfFireScreen('doAlertCheckAndShow(window._eventBaseHtml)')">Adjust Counters</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">Continue (no change)</button></div></div>`);
-  },
-  'Sparks':function(html){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Sparks</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Adjust Fire count as needed, then Continue.</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="window._malfFireContext='doAlertCheckAndShow(window._eventBaseHtml)';showMalfFireScreen('doAlertCheckAndShow(window._eventBaseHtml)')">Adjust Counters</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">Continue (no change)</button></div></div>`);
-  },
-  'Damage':function(html){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Damage</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Adjust Malfunction count as needed, then Continue.</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="window._malfFireContext='doAlertCheckAndShow(window._eventBaseHtml)';showMalfFireScreen('doAlertCheckAndShow(window._eventBaseHtml)')">Adjust Counters</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">Continue (no change)</button></div></div>`);
-  },
-  'Damaging Fire':function(html){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Damaging Fire</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Adjust Malfunction and Fire counts as needed.</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="window._malfFireContext='doAlertCheckAndShow(window._eventBaseHtml)';showMalfFireScreen('doAlertCheckAndShow(window._eventBaseHtml)')">Adjust Counters</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">Continue (no change)</button></div></div>`);
-  },
-  'Life Support Failure':function(html){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Life Support Failure</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Adjust Malfunction count as needed, then Continue.</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="window._malfFireContext='doAlertCheckAndShow(window._eventBaseHtml)';showMalfFireScreen('doAlertCheckAndShow(window._eventBaseHtml)')">Adjust Counters</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">Continue (no change)</button></div></div>`);
-  },
-  'Evacuation Pod Ejection':function(html){
-    const pod=G.escapePods.filter(p=>!p.launched).sort((a,b)=>a.id-b.id)[0];
-    let extra='';
-    if(pod){
-      pod.launched=true;
-      const names=pod.occupants.length?pod.occupants.map(n=>G.players.find(p=>p.number===n).name).join(', '):'empty';
-      extra=`Pod ${pod.id} has been launched! (${names})`;
-    } else {
-      extra='No un-launched Escape Pods remain.';
-    }
-    updateUI();
-    showEventInteractive(html,'<em style="color:var(--warn)">'+extra+'</em>','doAlertCheckAndShow(window._eventBaseHtml)');
-  },
-  'Adaptability':function(html){
-    let extra='';
-    if(G.discoveredWeaknesses.length>0){
-      const idx=rd(G.discoveredWeaknesses.length);
-      const removedKey=G.discoveredWeaknesses.splice(idx,1)[0];
-      const w=G.weaknesses[removedKey];
-      G.discardedWeaknessTypes.push(removedKey);
-      extra=`Discovered weakness discarded: <em style="color:var(--danger)">${w.name}</em> (${removedKey}). Its effects are removed. This weakness type can no longer be discovered.`;
-    } else {
-      extra='No discovered weaknesses to discard.';
-    }
-    showEventInteractive(html,extra,'doAlertCheckAndShow(window._eventBaseHtml)');
-  },
-  'Warbling':function(html){
-    let flipped=false;
-    let report='Engine status rolls:';
-    for(let i=1;i<=3;i++){
-      if(flipped){report+=`<br>Engine ${i}: Skipped (already flipped)`;continue}
-      const flip=Math.random()<(1/3);
-      if(flip){
-        G.engines[i]=G.engines[i]==='Working'?'Damaged':'Working';
-        flipped=true;
-        const col=G.engines[i]==='Working'?'var(--accent)':'var(--danger)';
-        report+=`<br>Engine ${i}: <em style="color:${col}">FLIPPED to ${G.engines[i]}</em>`;
-      } else {
-        report+=`<br>Engine ${i}: No change (${G.engines[i]})`;
-      }
-    }
-    if(!flipped)report+='<br>No engines flipped.';
-    showEventInteractive(html,report,'doAlertCheckAndShow(window._eventBaseHtml)');
-  },
-  'Royal Ceremony':function(html){
-    const queenInBag=G.bag.some(t=>t.name==='Queen');
-    if(queenInBag){
-      showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Royal Ceremony</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">The Queen Token is in the bag. Has the Nest been discovered?</div></div><div class="overlay-actions"><button class="overlay-btn" style="border-color:var(--accent);color:var(--accent)" onclick="royalCeremonyNest(true)">Yes, Nest discovered</button><button class="overlay-btn" onclick="royalCeremonyNest(false)">No</button></div></div>`);
-    } else {
-      // Queen not in bag: add egg
-      if(!G.nest.destroyed)G.nest.eggs++;
-      updateUI();
-      showEventInteractive(html,'Queen not in bag. <em style="color:var(--warn)">An Egg has been added to the Nest.</em> (Eggs: '+G.nest.eggs+')','doAlertCheckAndShow(window._eventBaseHtml)');
-    }
-  }
-};
-
-window.hatchingLarva=function(yes){
-  if(yes){
-    const l=getRandomFromSupply('Larva');
-    if(l){returnToBag(l);updateUI();doAlertCheckAndShow(window._eventBaseHtml+'<br><em style="color:var(--warn)">A Larva token was added to the bag.</em>')}
-    else{doAlertCheckAndShow(window._eventBaseHtml+'<br><em style="color:var(--text-dim)">No Larva tokens available in supply.</em>')}
-  } else {
-    doAlertCheckAndShow(window._eventBaseHtml);
-  }
-};
-
-window.royalCeremonyNest=function(discovered){
-  if(discovered){
-    // Remove Queen from bag, put in supply (she's placed in Nest on the board)
-    const idx=G.bag.findIndex(t=>t.name==='Queen');
-    if(idx!==-1){const q=G.bag.splice(idx,1)[0];returnToSupply(q)}
-    updateUI();
-    showEventInteractive(window._eventBaseHtml,'Nest discovered. <em style="color:var(--queen)">Place the Queen in the Nest.</em> Queen token moved from bag to supply.','doAlertCheckAndShow(window._eventBaseHtml)');
-  } else {
-    // Nest not discovered: add egg
-    if(!G.nest.destroyed)G.nest.eggs++;
-    updateUI();
-    showEventInteractive(window._eventBaseHtml,'Nest not discovered. <em style="color:var(--warn)">An Egg has been added to the Nest.</em> (Eggs: '+G.nest.eggs+')','doAlertCheckAndShow(window._eventBaseHtml)');
-  }
-};
 
 // --- STEP 9: Bag Development ---
 function eventStep9_BagDev(){
@@ -1352,7 +1161,6 @@ function updateDebug(){
     <div style="margin-bottom:3px"><b style="color:var(--accent)">COORD:</b> ${Object.entries(G.coordinates).map(([l,d])=>l+'\u2192'+d).join(' ')} | Dest:${G.shipDestination}</div>
     <div style="margin-bottom:3px"><b style="color:var(--accent)">PODS:</b> ${G.escapePods.map(p=>p.id+':'+(p.launched?'GONE':p.locked?'Lock':'Open')+(p.occupants.length?'('+p.occupants+')':'')).join(' ')}</div>
     <div style="margin-bottom:3px"><b style="color:var(--accent)">WEAK:</b> Corp\u2192${G.weaknesses.characterCorpse?.name||'?'} | Egg\u2192${G.weaknesses.intruderEgg?.name||'?'} | Carc\u2192${G.weaknesses.intruderCarcass?.name||'?'} | Found:${G.discoveredWeaknesses.join(',')||'none'}</div>
-    <div style="margin-bottom:3px"><b style="color:var(--accent)">MAL/FIRE:</b> Mal:${G.malfunctionCount} Fire:${G.fireCount} | Queen:${G.queenKilled?'DEAD':'alive'}</div>
     <div><b style="color:var(--accent)">EVENTS:</b> Draw:${G.eventDraw.length} Disc:${G.eventDiscard.length} Rm:${G.removedEvents.length} | <b>ALERTS:</b> Deck:${G.alertDeck.length} Active:${G.currentAlert?G.currentAlert.name:'none'}</div>`;
 }
 </script>
