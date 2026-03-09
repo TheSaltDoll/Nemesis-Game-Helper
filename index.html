@@ -772,7 +772,12 @@ window.chgEggs=function(d){
 function doWeakness(){
   const types=[{k:'characterCorpse',l:'Character Corpse'},{k:'intruderEgg',l:'Intruder Egg'},{k:'intruderCarcass',l:'Intruder Carcass'}];
   const btns=types.map(t=>{const disc=G.discoveredWeaknesses.includes(t.k);return`<button class="type-btn" style="color:${disc?'var(--text-dim)':'var(--warn)'};border-color:${disc?'var(--border)':'var(--warn)'}" ${disc?'disabled':''} onclick="revealWeak('${t.k}')">${t.l}${disc?' \u2713':''}</button>`}).join('');
-  showOverlay(`<div class="result-card"><div class="result-type-label">Discover Weakness</div><div class="type-options">${btns}</div><div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
+  let discovered='';
+  if(G.discoveredWeaknesses.length){
+    const items=G.discoveredWeaknesses.map(k=>{const t=types.find(x=>x.k===k);const w=G.weaknesses[k];return`<div style="padding:6px 0;border-bottom:1px solid var(--border)"><div style="color:var(--warn);font-size:12px;font-weight:bold">${t?t.l:k}</div><div style="color:var(--accent);font-size:11px;margin-top:2px">${w.name}</div><div style="color:var(--text-dim);font-size:10px;margin-top:2px">${w.effect}</div></div>`}).join('');
+    discovered=`<div class="result-message" style="margin-top:12px;text-align:left"><div style="font-family:var(--font-display);font-size:9px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Discovered</div>${items}</div>`;
+  }
+  showOverlay(`<div class="result-card"><div class="result-type-label">Discover Weakness</div><div class="type-options">${btns}</div>${discovered}<div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
 }
 window.revealWeak=function(k){
   G.discoveredWeaknesses.push(k);const w=G.weaknesses[k];
