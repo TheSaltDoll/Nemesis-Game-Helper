@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Nemesis">
@@ -18,9 +18,10 @@
   --text:#e0e0e8;--text-dim:#6a6a78;
   --queen:#ff3366;--breeder:#cc44ff;--adult:#ff6633;--creeper:#33ccff;--larva:#88cc44;--blank:#555566;
   --font-display:'Orbitron',sans-serif;--font-mono:'Share Tech Mono',monospace;
+  --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-mono);-webkit-tap-highlight-color:transparent;user-select:none}
-body{display:flex;flex-direction:column}
+body{display:flex;flex-direction:column;padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);pointer-events:none;z-index:9999}
 
 header{text-align:center;padding:10px 16px 6px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0f0f14,var(--bg));flex-shrink:0}
@@ -147,63 +148,6 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 .tag-Blank{color:var(--blank);border-color:var(--blank)}
 
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-
-/* ============================================
-   TABLET LANDSCAPE (min-width 800px + landscape)
-   ============================================ */
-@media (min-width:800px) and (orientation:landscape){
-  header{padding:6px 24px 4px;display:flex;align-items:center;gap:20px}
-  header h1{font-size:16px;letter-spacing:8px;white-space:nowrap}
-  .header-status{margin-top:0;font-size:14px;flex:1;text-align:right;line-height:1.3}
-  .header-status .status-row{justify-content:flex-end;gap:16px}
-
-  .setup-center{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 40px;padding:24px 48px}
-  .setup-title{width:100%;font-size:24px}
-  .setup-subtitle{width:100%;font-size:14px}
-  .name-form{max-width:500px}
-  .name-row label{font-size:14px;width:110px}
-  .name-row input{font-size:16px}
-  .setup-info{max-width:700px;column-count:2;column-gap:32px}
-  .setup-info-section{break-inside:avoid;font-size:14px}
-  .setup-info-section h3{font-size:13px}
-  .setup-info-row{font-size:14px}
-  .nav-btn{font-size:14px;padding:10px 48px}
-  .player-btn{width:60px;height:60px;font-size:22px}
-
-  .phase-banner{font-size:12px;letter-spacing:6px;padding:5px}
-
-  .urgency-banner{font-size:14px;padding:6px 24px}
-  .urgency-banner .ub-icon{font-size:14px}
-  .urgency-banner .ub-label{font-size:11px}
-  .urgency-banner .ub-text{font-size:12px}
-
-  .actions-area{flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:8px;padding:12px 24px}
-  .section-label{width:100%;max-width:100%;text-align:center;font-size:11px;margin-top:8px}
-  .action-btn{width:calc(50% - 8px);max-width:none;padding:10px 14px;font-size:14px}
-  .action-btn .label{font-size:12px}
-  .action-btn .desc{font-size:11px}
-
-  .reset-row{padding:4px 20px 6px}
-  .reset-btn{font-size:12px}
-
-  .overlay{padding:24px}
-  .result-card{max-width:600px;max-height:90vh}
-  .result-type-label{font-size:13px;margin-bottom:10px}
-  .result-name{font-size:24px}
-  .result-initiative{font-size:14px}
-  .result-message{font-size:14px;padding:12px 16px}
-  .result-image{max-width:300px}
-  .overlay-btn{font-size:13px;padding:10px 32px}
-  .type-btn{font-size:13px;padding:10px 20px}
-  .type-options{gap:10px}
-  .private-prompt{font-size:14px}
-  .reveal-box{font-size:15px}
-  .blank-icon{width:70px;height:70px;font-size:28px}
-
-  .debug-area{padding:4px 24px}
-  .debug-toggle span{font-size:11px}
-  .debug-contents{font-size:11px;max-height:120px}
-}
 </style>
 </head>
 <body>
