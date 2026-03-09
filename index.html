@@ -26,7 +26,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 header{text-align:center;padding:10px 16px 6px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0f0f14,var(--bg));flex-shrink:0}
 header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-spacing:6px;text-transform:uppercase;color:var(--accent);text-shadow:0 0 20px rgba(196,255,0,0.3)}
-.header-status{display:flex;justify-content:center;gap:14px;margin-top:4px;font-size:18px;letter-spacing:1px;color:var(--text-dim);flex-wrap:wrap}
+.header-status{margin-top:4px;font-size:18px;letter-spacing:1px;color:var(--text-dim);text-align:center;line-height:1.6}
+.header-status .status-row{display:flex;justify-content:center;gap:14px}
 .header-status span{color:var(--accent)}
 .header-status .hl-warn{color:var(--danger)}
 
@@ -456,12 +457,13 @@ document.getElementById('btn-start-game').addEventListener('click',()=>{showScre
 // ============================================================
 function updateUI(){
   const hs=document.getElementById('header-status');
-  let p=[`Time: <span>${G.timeMark}</span>`,`Bag: <span>${G.bag.length}</span>`,`1st: <span>${firstPlayerName()}</span>`,`<br>Dest: <span>${G.shipDestination}</span>`];
-  if(!G.nest.destroyed)p.push(`Eggs: <span>${G.nest.eggs}</span>`);
-  else p.push(`Nest: <span class="hl-warn">GONE</span>`);
-  if(G.selfDestruct.active)p.push(`SD: <span class="hl-warn">${G.selfDestruct.timer}${G.selfDestruct.unstoppable?' \u26A0':''}</span>`);
-  if(G.currentAlert)p.push(`Alert: <span class="hl-warn">${G.currentAlert.timer}</span>`);
-  hs.innerHTML=p.join(' | ');
+  let row1=[`Time: <span>${G.timeMark}</span>`,`Bag: <span>${G.bag.length}</span>`,`1st: <span>${firstPlayerName()}</span>`];
+  let row2=[`Dest: <span>${G.shipDestination}</span>`];
+  if(!G.nest.destroyed)row2.push(`Eggs: <span>${G.nest.eggs}</span>`);
+  else row2.push(`Nest: <span class="hl-warn">GONE</span>`);
+  if(G.selfDestruct.active)row2.push(`SD: <span class="hl-warn">${G.selfDestruct.timer}${G.selfDestruct.unstoppable?' \u26A0':''}</span>`);
+  if(G.currentAlert)row2.push(`Alert: <span class="hl-warn">${G.currentAlert.timer}</span>`);
+  hs.innerHTML=`<div class="status-row">${row1.join(' | ')}</div><div class="status-row">${row2.join(' | ')}</div>`;
   const pb=document.getElementById('phase-banner');
   pb.textContent=G.phase==='player'?'Player Phase':'Event Phase';
   pb.className='phase-banner '+(G.phase==='player'?'player-phase':'event-phase');
