@@ -703,7 +703,7 @@ function doBagDev(){
 window.queenNest=function(yes){
   const t=window._pq;
   if(yes){returnToSupply(t);showOverlay(`<div class="result-card"><div class="result-type-label">Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered" style="border-color:var(--queen)"><em style="color:var(--queen);font-size:18px">The Queen appears in the Nest!</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);}
-  else{returnToBag(t);showOverlay(`<div class="result-card"><div class="result-type-label">Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered">Queen returned to the bag.<br><br><em style="color:var(--warn)">Add an additional Egg token on the Intruder Board.</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);}
+  else{returnToBag(t);if(!G.nest.destroyed)G.nest.eggs++;updateUI();showOverlay(`<div class="result-card"><div class="result-type-label">Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered">Queen returned to the bag.<br><br><em style="color:var(--warn)">An Egg has been added to the Nest.</em> (Eggs: ${G.nest.eggs})</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);}
   window._pq=null;
 };
 
@@ -923,15 +923,20 @@ function doExplore(){
   if(!results.length){
     html+=`<div style="padding:6px 0;color:var(--text-dim)">No other discoveries.</div>`;
   }
+  let hasTurret=false;let turretStatus='';
   results.forEach(r=>{
     let extra='';
     if(r.name==='Malfunction'){G.malfunctionCount++;extra=` <span style="color:var(--text-dim)">(Total: ${G.malfunctionCount})</span>`}
     if(r.name==='Fire'){G.fireCount++;extra=` <span style="color:var(--text-dim)">(Total: ${G.fireCount})</span>`}
-    if(r.name==='Turret'){G.turretCount++;const st=TURRET_STATUSES[rd(3)];extra=`<br>Status: <em style="color:var(--accent)">${st}</em><br><span style="color:var(--warn);font-size:18px">Turrets cannot be placed in the Nest or Room Covered with Slime.</span>`}
+    if(r.name==='Turret'){hasTurret=true;turretStatus=TURRET_STATUSES[rd(3)];extra=`<br>Status: <em style="color:var(--accent)">${turretStatus}</em><br><span style="color:var(--warn);font-size:14px">Turrets cannot be placed in the Nest or Room Covered with Slime.</span>`}
     html+=`<div style="padding:6px 0;border-bottom:1px solid var(--border)">${r.name}${extra}</div>`;
   });
   updateUI();
-  showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();checkCatastrophe()">OK</button></div></div>`);
+  if(hasTurret){
+    showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="private-prompt">Was a Turret placed?</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="G.turretCount++;updateUI();hideOverlay();checkCatastrophe()">Yes, Turret Placed</button><button class="overlay-btn" onclick="hideOverlay();checkCatastrophe()">No</button></div></div>`);
+  } else {
+    showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();checkCatastrophe()">OK</button></div></div>`);
+  }
 }
 
 // ============================================================
@@ -981,7 +986,14 @@ window.rollIntruderAttack=function(type){
   const roll=rd(20),c=COLOR_MAP[type];
   let result=ATTACK_TABLE[type][roll];
   let weakNote='';
-  // Apply "The Way of Fighting": Bite deals Light Wound instead of Serious Wound
+  if(result.startsWith('Summon')){
+    doSummonDraw('hideOverlay()','OK');
+    return;
+  }
+  if(result.startsWith('Transformation')){
+    showTransformationResult(result,roll,'hideOverlay()','OK');
+    return;
+  }
   if(result.startsWith('Bite')&&isWeaknessActive('The Way of Fighting')){
     result='Bite: 1 Light Wound (Way of Fighting)';
     weakNote='<br><span style="color:var(--warn);font-size:18px">(The Way of Fighting: Bite deals Light Wound)</span>';
@@ -989,6 +1001,56 @@ window.rollIntruderAttack=function(type){
   const isMiss=result==='-- miss --';
   const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
   showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:18px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:18px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+};
+
+// ============================================================
+// SUMMON — Bag draw with no subsequent attack
+// ============================================================
+function doSummonDraw(returnAction,label){
+  if(!G.bag.length){
+    showOverlay(`<div class="result-card"><div class="result-type-label">Summon</div><div class="result-message centered">The bag is empty. No token to draw.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${returnAction}">${label}</button></div></div>`);
+    return;
+  }
+  const t=drawFromBag();
+  if(t.name==='Blank'){
+    const wasLast=G.bag.length===0;
+    returnToBag(t);let added=false;
+    if(wasLast){const a=getRandomFromSupply('Adult');if(a){returnToBag(a);added=true}}
+    let m='<em style="color:var(--blank)">Blank</em> drawn. Returned to the bag.';
+    if(added)m+='<br><em>The Blank was the last token \u2014 a random Adult has been added.</em>';
+    updateUI();
+    showOverlay(`<div class="result-card"><div class="result-type-label">Summon</div><div class="blank-icon">\u2205</div><div class="result-name" style="color:var(--blank)">Blank</div><div class="result-message centered">${m}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${returnAction}">${label}</button></div></div>`);
+  } else {
+    returnToSupply(t);const c=COLOR_MAP[t.name];
+    let dispInit=t.initiative;let initNote='';
+    if(isWeaknessActive('Reaction to Danger')){dispInit=Math.max(1,dispInit-1);initNote='<br><span style="color:var(--warn);font-size:12px">(Reaction to Danger: \u22121 initiative)</span>'}
+    updateUI();
+    showOverlay(`<div class="result-card"><div class="result-type-label">Summon</div><img class="result-image" src="${IMAGE_MAP[t.name]}" alt="${t.name}" style="--glow-color:${c};border-color:${c}" onerror="this.style.display='none'"><div class="result-name" style="color:${c}">${t.name}</div><div class="result-initiative">Initiative: <span>${dispInit}</span>${initNote}</div><div class="result-message centered">Summoned! Token returned to supply.<br><em style="color:var(--text-dim)">No attack from this draw.</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${returnAction}">${label}</button></div></div>`);
+  }
+}
+
+// ============================================================
+// TRANSFORMATION — Optional Breeder follow-up attack
+// ============================================================
+function showTransformationResult(result,roll,returnAction,returnLabel){
+  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 Creeper</div><div class="result-name" style="color:var(--creeper);font-size:18px">Creeper</div><div class="result-message centered"><span style="color:var(--warn);font-size:14px">${result}</span><br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="private-prompt">Does the new Breeder Attack?</div><div class="overlay-actions"><button class="overlay-btn danger" onclick="doBreederFollowUp('${returnAction}','${returnLabel}')">Yes, Breeder Attacks</button><button class="overlay-btn" onclick="${returnAction}">${returnLabel}</button></div></div>`);
+}
+
+window.doBreederFollowUp=function(returnAction,returnLabel){
+  const roll=rd(20),c=COLOR_MAP['Breeder'];
+  let result=ATTACK_TABLE['Breeder'][roll];
+  let weakNote='';
+  if(result.startsWith('Summon')){
+    doSummonDraw(returnAction,returnLabel);
+    return;
+  }
+  if(result.startsWith('Bite')&&isWeaknessActive('The Way of Fighting')){
+    result='Bite: 1 Light Wound (Way of Fighting)';
+    weakNote='<br><span style="color:var(--warn);font-size:12px">(The Way of Fighting: Bite deals Light Wound)</span>';
+  }
+  const isMiss=result==='-- miss --';
+  const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
+  showOverlay(`<div class="result-card"><div class="result-type-label">Breeder Attack (Transformed)</div><div class="result-name" style="color:${c};font-size:18px">Breeder</div><div class="result-message centered"><span style="color:${col};font-size:14px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${returnAction}">${returnLabel}</button></div></div>`);
 };
 
 // ============================================================
@@ -1121,6 +1183,14 @@ window.eventRollAttack=function(type){
   const roll=rd(20),c=COLOR_MAP[type];
   let result=ATTACK_TABLE[type][roll];
   let weakNote='';
+  if(result.startsWith('Summon')){
+    doSummonDraw('eventStep4_IntruderAttacks()','Back to Attacks');
+    return;
+  }
+  if(result.startsWith('Transformation')){
+    showTransformationResult(result,roll,'eventStep4_IntruderAttacks()','Back to Attacks');
+    return;
+  }
   if(result.startsWith('Bite')&&isWeaknessActive('The Way of Fighting')){
     result='Bite: 1 Light Wound (Way of Fighting)';
     weakNote='<br><span style="color:var(--warn);font-size:18px">(The Way of Fighting: Bite deals Light Wound)</span>';
@@ -1207,6 +1277,14 @@ const EVENT_HANDLERS={
     if(G.nest.eggs<=0&&!G.nest.destroyed){G.nest.eggs=0;G.nest.destroyed=true}
     const eggMsg=G.nest.destroyed?'Nest eggs reduced. Nest is now <em style="color:var(--danger)">DESTROYED</em>.':'Nest eggs reduced to <em>'+G.nest.eggs+'</em>.';
     showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Hatching</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">${eggMsg}<br><br>Does a Larva Token need to be put into the bag?</div></div><div class="overlay-actions"><button class="overlay-btn" style="border-color:var(--accent);color:var(--accent)" onclick="hatchingLarva(true)">Yes</button><button class="overlay-btn" onclick="hatchingLarva(false)">No</button></div></div>`);
+  },
+  'Egg Protection':function(html){
+    window._eventEncounterHtml=html;
+    eventEncounterLoop(html);
+  },
+  'Noise in Technical Corridors':function(html){
+    window._eventEncounterHtml=html;
+    eventEncounterLoop(html);
   },
   'Coolant Leak':function(html){
     if(G.selfDestruct.active){
@@ -1299,16 +1377,72 @@ window.hatchingLarva=function(yes){
 
 window.royalCeremonyNest=function(discovered){
   if(discovered){
-    // Remove Queen from bag, put in supply (she's placed in Nest on the board)
     const idx=G.bag.findIndex(t=>t.name==='Queen');
     if(idx!==-1){const q=G.bag.splice(idx,1)[0];returnToSupply(q)}
     updateUI();
     showEventInteractive(window._eventBaseHtml,'Nest discovered. <em style="color:var(--queen)">Place the Queen in the Nest.</em> Queen token moved from bag to supply.','doAlertCheckAndShow(window._eventBaseHtml)');
   } else {
-    // Nest not discovered: add egg
     if(!G.nest.destroyed)G.nest.eggs++;
     updateUI();
     showEventInteractive(window._eventBaseHtml,'Nest not discovered. <em style="color:var(--warn)">An Egg has been added to the Nest.</em> (Eggs: '+G.nest.eggs+')','doAlertCheckAndShow(window._eventBaseHtml)');
+  }
+};
+
+// ============================================================
+// EVENT ENCOUNTER LOOP (Egg Protection / Noise in Tech Corridors)
+// ============================================================
+function eventEncounterLoop(html){
+  showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Encounter</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Has an Encounter taken place?</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterDraw()">Yes, draw from bag</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">No more Encounters</button></div></div>`);
+}
+
+window.eventEncounterDraw=function(){
+  if(!G.bag.length){
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Encounter</div><div class="result-message centered">The bag is empty. No token to draw.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Back</button></div></div>`);
+    return;
+  }
+  const t=drawFromBag();
+  if(t.name==='Blank'){
+    const wasLast=G.bag.length===0;
+    returnToBag(t);let added=false;
+    if(wasLast){const a=getRandomFromSupply('Adult');if(a){returnToBag(a);added=true}}
+    let m='<em style="color:var(--blank)">Blank</em> drawn. Returned to the bag.';
+    if(added)m+='<br><em>The Blank was the last token \u2014 a random Adult has been added.</em>';
+    updateUI();
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Encounter</div><div class="blank-icon">\u2205</div><div class="result-name" style="color:var(--blank)">Blank</div><div class="result-message centered">${m}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
+  } else {
+    returnToSupply(t);
+    const c=COLOR_MAP[t.name];
+    let dispInit=t.initiative;
+    let initNote='';
+    if(isWeaknessActive('Reaction to Danger')){dispInit=Math.max(1,dispInit-1);initNote='<br><span style="color:var(--warn);font-size:12px">(Reaction to Danger: \u22121 initiative)</span>'}
+    updateUI();
+    // Ask if intruder attacks
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Encounter</div><img class="result-image" src="${IMAGE_MAP[t.name]}" alt="${t.name}" style="--glow-color:${c};border-color:${c}" onerror="this.style.display='none'"><div class="result-name" style="color:${c}">${t.name}</div><div class="result-initiative">Initiative: <span>${dispInit}</span>${initNote}</div><div class="result-message centered">Token returned to supply.<br><br>Does this Intruder Attack?</div><div class="overlay-actions"><button class="overlay-btn danger" onclick="eventEncounterAttack('${t.name}')">Yes, Attacks</button><button class="overlay-btn" onclick="eventEncounterLoop(window._eventEncounterHtml)">No</button></div></div>`);
+  }
+};
+
+window.eventEncounterAttack=function(type){
+  if(type==='Larva'){
+    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 Larva</div><div class="result-name" style="color:var(--larva);font-size:18px">Larva</div><div class="result-message centered"><em style="color:var(--warn)">The attacked Character is now Infested.</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
+  } else {
+    const roll=rd(20),c=COLOR_MAP[type];
+    let result=ATTACK_TABLE[type][roll];
+    let weakNote='';
+    if(result.startsWith('Summon')){
+      doSummonDraw("eventEncounterLoop(window._eventEncounterHtml)",'Continue');
+      return;
+    }
+    if(result.startsWith('Transformation')){
+      showTransformationResult(result,roll,"eventEncounterLoop(window._eventEncounterHtml)",'Continue');
+      return;
+    }
+    if(result.startsWith('Bite')&&isWeaknessActive('The Way of Fighting')){
+      result='Bite: 1 Light Wound (Way of Fighting)';
+      weakNote='<br><span style="color:var(--warn);font-size:12px">(The Way of Fighting: Bite deals Light Wound)</span>';
+    }
+    const isMiss=result==='-- miss --';
+    const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
+    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:18px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:14px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
   }
 };
 
@@ -1350,8 +1484,10 @@ window.epQueenNest=function(yes){
     returnToSupply(t);updateUI();
     showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered" style="border-color:var(--queen)"><em style="color:var(--queen);font-size:18px">The Queen appears in the Nest!</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep10_RoundEnd()">Next</button></div></div>`);
   } else {
-    returnToBag(t);updateUI();
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered">Queen returned to the bag.<br><br><em style="color:var(--warn)">Add an additional Egg token on the Intruder Board.</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep10_RoundEnd()">Next</button></div></div>`);
+    returnToBag(t);
+    if(!G.nest.destroyed)G.nest.eggs++;
+    updateUI();
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered">Queen returned to the bag.<br><br><em style="color:var(--warn)">An Egg has been added to the Nest.</em> (Eggs: ${G.nest.eggs})</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep10_RoundEnd()">Next</button></div></div>`);
   }
   window._epQueen=null;
 };
