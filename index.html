@@ -25,8 +25,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 header{text-align:center;padding:10px 16px 6px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0f0f14,var(--bg));flex-shrink:0}
 header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-spacing:6px;text-transform:uppercase;color:var(--accent);text-shadow:0 0 20px rgba(196,255,0,0.3)}
-.header-status{margin-top:4px;font-size:18px;letter-spacing:1px;color:var(--text-dim);text-align:center;line-height:1.6}
-.header-status .status-row{display:flex;justify-content:center;gap:14px}
+.header-status{margin-top:4px;font-size:14px;letter-spacing:1px;color:var(--text-dim);text-align:center;line-height:1.6}
+.header-status .status-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .header-status span{color:var(--accent)}
 .header-status .hl-warn{color:var(--danger)}
 
@@ -62,10 +62,10 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 .phase-banner.player-phase{color:var(--accent);background:rgba(196,255,0,0.03)}
 .phase-banner.event-phase{color:var(--creeper);background:rgba(51,204,255,0.03)}
 
-.urgency-banner{padding:8px 16px;font-size:18px;line-height:1.5;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px}
-.urgency-banner .ub-icon{font-size:18px;flex-shrink:0}
-.urgency-banner .ub-label{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;text-transform:uppercase;flex-shrink:0}
-.urgency-banner .ub-text{color:var(--text-dim);font-size:18px}
+.urgency-banner{padding:8px 16px;font-size:14px;line-height:1.4;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;overflow:hidden;width:100%}
+.urgency-banner .ub-icon{font-size:14px;flex-shrink:0}
+.urgency-banner .ub-label{font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;flex-shrink:0}
+.urgency-banner .ub-text{color:var(--text-dim);font-size:12px;min-width:0;word-wrap:break-word}
 .ub-sd{background:rgba(255,51,68,0.06);color:var(--danger)}
 .ub-sd .ub-text{color:rgba(255,51,68,0.7)}
 .ub-alert{background:rgba(255,153,0,0.06);color:var(--warn)}
@@ -177,9 +177,9 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
   .urgency-banner .ub-label{font-size:11px}
   .urgency-banner .ub-text{font-size:12px}
 
-  .actions-area{flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:8px;padding:12px 24px}
+  .actions-area{flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:8px;padding:12px 24px;max-width:900px;margin:0 auto;width:100%}
   .section-label{width:100%;max-width:100%;text-align:center;font-size:11px;margin-top:8px}
-  .action-btn{width:calc(50% - 8px);max-width:none;padding:10px 14px;font-size:14px}
+  .action-btn{width:calc(50% - 8px);max-width:440px;padding:10px 14px;font-size:14px}
   .action-btn .label{font-size:12px}
   .action-btn .desc{font-size:11px}
 
