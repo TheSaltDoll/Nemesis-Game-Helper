@@ -248,6 +248,14 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 
 <script>
 // ============================================================
+// AUDIO
+// ============================================================
+function playSound(file){try{const a=new Audio(file);a.play().catch(()=>{})}catch(e){}}
+const MUTHER_SOUNDS=['muther-01.mp3','muther-02.mp3','muther-03.mp3','muther-04.mp3'];
+let mutherIndex=0;
+function playMuther(){playSound(MUTHER_SOUNDS[mutherIndex]);mutherIndex=(mutherIndex+1)%4}
+
+// ============================================================
 // CONSTANTS
 // ============================================================
 const ALL_TOKENS=[
@@ -506,7 +514,7 @@ function buildBoardSetup(){
       <div class="setup-info-row"><span class="lbl">First Player</span><span class="val">${firstPlayerName()}</span></div>
     </div>`;
 }
-document.getElementById('btn-start-game').addEventListener('click',()=>{showScreen('main-screen');buildActions();updateUI()});
+document.getElementById('btn-start-game').addEventListener('click',()=>{playSound('start-mysympathies.mp3');showScreen('main-screen');buildActions();updateUI()});
 
 // ============================================================
 // UI UPDATE
@@ -584,6 +592,7 @@ function buildActions(){
 
 function handleAction(id){
   if(G.gameOver){msg('Game Over','The game has ended.');return}
+  playMuther();
   const fn={encounter:doEncounter,retreat:doRetreat,'check-engine':doCheckEngine,'repair-engine':doRepairEngine,'check-coords':doCheckCoords,'set-dest':doSetDest,'self-destruct':doSelfDestruct,'malf-fire':doMalfFire,'lock-pod':doLockPod,'enter-pod':doEnterPod,'launch-pod':doLaunchPod,hibernation:doHibernation,eggs:doEggs,weakness:doWeakness,'player-dies':doPlayerDies,explore:doExplore,attack:doAttack,'intruder-attack':doIntruderAttack,crawl:doCrawl,'end-phase':doEndPlayerPhase};
   if(fn[id])fn[id]();
 }
@@ -758,7 +767,7 @@ function doSelfDestruct(){
     showOverlay(`<div class="result-card"><div class="result-type-label">Self Destruct</div><div class="result-message centered">Self-Destruct <em style="color:var(--danger)">ACTIVE</em> \u2014 Timer: <em style="color:var(--danger)">${G.selfDestruct.timer}</em></div><div class="overlay-actions"><button class="overlay-btn danger" onclick="G.selfDestruct={active:false,timer:6,unstoppable:false};msg('Self Destruct','Self-Destruct <em style=color:var(--accent)>STOPPED</em>. Timer reset.')">Stop</button><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
   } else {
     if(G.players.some(p=>p.inHibernation)){msg('Self Destruct','Cannot initiate while players are in Hibernation Pods.');return}
-    showOverlay(`<div class="result-card"><div class="result-type-label">Self Destruct</div><div class="result-message centered" style="border-color:var(--danger)">Initiate Self-Destruct?<br>Timer starts at <em style="color:var(--danger)">6</em>.</div><div class="overlay-actions"><button class="overlay-btn danger" onclick="G.selfDestruct={active:true,timer:6,unstoppable:false};msg('Self Destruct','<em style=color:var(--danger)>SELF-DESTRUCT INITIATED</em><br>Timer: 6')">Initiate</button><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Self Destruct</div><div class="result-message centered" style="border-color:var(--danger)">Initiate Self-Destruct?<br>Timer starts at <em style="color:var(--danger)">6</em>.</div><div class="overlay-actions"><button class="overlay-btn danger" onclick="G.selfDestruct={active:true,timer:6,unstoppable:false};playSound('destruct-06.mp3');msg('Self Destruct','<em style=color:var(--danger)>SELF-DESTRUCT INITIATED</em><br>Timer: 6')">Initiate</button><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
   }
 }
 
@@ -1123,6 +1132,12 @@ function eventStep2_SelfDestruct(){
   let announcements=[];
   let gameEnd=false;
 
+  // Self-destruct audio cues
+  if(G.selfDestruct.timer===4)playSound('destruct-04.mp3');
+  else if(G.selfDestruct.timer===3)playSound('destruct-03.mp3');
+  else if(G.selfDestruct.timer===1)playSound('destruct-01.mp3');
+  else if(G.selfDestruct.timer<=0)playSound('destruct-00.mp3');
+
   if(G.selfDestruct.timer<=3&&!G.selfDestruct.unstoppable){
     G.selfDestruct.unstoppable=true;
     G.escapePods.forEach(p=>{if(!p.launched)p.locked=false});
@@ -1290,7 +1305,7 @@ const EVENT_HANDLERS={
     if(G.selfDestruct.active){
       showEventInteractive(html,'Self-Destruct is already active.','doAlertCheckAndShow(window._eventBaseHtml)');
     } else {
-      showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Coolant Leak</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Start the Self-Destruct countdown?</div></div><div class="overlay-actions"><button class="overlay-btn danger" onclick="G.selfDestruct={active:true,timer:6,unstoppable:false};updateUI();doAlertCheckAndShow(window._eventBaseHtml)">Start Self-Destruct</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">No</button></div></div>`);
+      showOverlay(`<div class="result-card"><div class="result-type-label">Event \u2014 Coolant Leak</div><div class="result-message">${html}<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">Start the Self-Destruct countdown?</div></div><div class="overlay-actions"><button class="overlay-btn danger" onclick="G.selfDestruct={active:true,timer:6,unstoppable:false};playSound('destruct-06.mp3');updateUI();doAlertCheckAndShow(window._eventBaseHtml)">Start Self-Destruct</button><button class="overlay-btn" onclick="doAlertCheckAndShow(window._eventBaseHtml)">No</button></div></div>`);
     }
   },
   'Short Circuit':function(html){
