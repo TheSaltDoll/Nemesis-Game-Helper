@@ -744,7 +744,7 @@ function doCheckCoords(){
   showOverlay(`<div class="result-card"><div class="result-type-label">Check Coordinates</div><div class="private-prompt">Hand the device to the player checking coordinates.<br><br>Tap below when ready to reveal.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="revealCoords()">Reveal Coordinates</button><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
 }
 window.revealCoords=function(){
-  const rows=Object.entries(G.coordinates).map(([l,d])=>`<div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--accent);font-weight:bold">${l}</span><span>${d}</span></div>`).join('');
+  const rows=Object.entries(G.coordinates).map(([l,d])=>`<div style="display:flex;justify-content:space-evenly;padding:4px 0"><span style="color:var(--accent);font-weight:bold">${l}</span><span>${d}</span></div>`).join('');
   showOverlay(`<div class="result-card"><div class="result-type-label">Check Coordinates</div><div class="private-prompt">For your eyes only!</div><div class="reveal-box">${rows}<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);text-align:center;color:var(--text-dim)">Ship Destination: <span style="color:var(--accent)">${G.shipDestination}</span> \u2192 <span style="color:var(--warn)">${G.coordinates[G.shipDestination]}</span></div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">Done</button></div></div>`);
 };
 
@@ -970,7 +970,7 @@ window.rollHealth=function(type){
   } else {
     // For Queen: ask if killed
     const queenAsk=(type==='Queen')?`<div class="overlay-actions" style="margin-top:10px"><button class="overlay-btn danger" onclick="queenKilled()">Queen Was Killed</button></div>`:'';
-    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">Health: <em style="color:var(--danger);font-size:20px">${result}</em>${weakNote}<br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div>${queenAsk}<div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Attack On</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">Health: <em style="color:var(--danger);font-size:20px">${result}</em>${weakNote}<br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div>${queenAsk}<div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
   }
 };
 window.queenKilled=function(){
@@ -1008,7 +1008,7 @@ window.rollIntruderAttack=function(type){
   }
   const isMiss=result==='-- miss --';
   const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
-  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:22px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:22px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack</div><div class="result-name" style="color:${c};font-size:22px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:22px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
 };
 
 // ============================================================
