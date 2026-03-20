@@ -743,9 +743,30 @@ window.setEng=function(n,s){G.engines[n]=s;const c=s==='Working'?'var(--accent)'
 function doCheckCoords(){
   showOverlay(`<div class="result-card"><div class="result-type-label">Check Coordinates</div><div class="private-prompt">Hand the device to the player checking coordinates.<br><br>Tap below when ready to reveal.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="revealCoords()">Reveal Coordinates</button><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
 }
-window.revealCoords=function(){
-  const rows=Object.entries(G.coordinates).map(([l,d])=>`<div style="display:flex;justify-content:space-evenly;padding:4px 0"><span style="color:var(--accent);font-weight:bold">${l}</span><span>${d}</span></div>`).join('');
-  showOverlay(`<div class="result-card"><div class="result-type-label">Check Coordinates</div><div class="private-prompt">For your eyes only!</div><div class="reveal-box">${rows}<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);text-align:center;color:var(--text-dim)">Ship Destination: <span style="color:var(--accent)">${G.shipDestination}</span> \u2192 <span style="color:var(--warn)">${G.coordinates[G.shipDestination]}</span></div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">Done</button></div></div>`);
+
+window.revealCoords = function() {
+  const rows = Object.entries(G.coordinates).map(([l, d]) =>
+    `<div style="display:contents">
+       <span style="color:var(--accent);font-weight:bold;padding:4px 8px 4px 0;text-align:center">${l}</span>
+       <span style="padding:4px 0">${d}</span>
+     </div>`
+  ).join('');
+
+  showOverlay(`<div class="result-card">
+    <div class="result-type-label">Check Coordinates</div>
+    <div class="private-prompt">For your eyes only!</div>
+    <div class="reveal-box">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;align-items:center">
+        ${rows}
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);text-align:center;color:var(--text-dim)">
+        Ship Destination: <span style="color:var(--accent)">${G.shipDestination}</span> &rarr; <span style="color:var(--warn)">${G.coordinates[G.shipDestination]}</span>
+      </div>
+    </div>
+    <div class="overlay-actions">
+      <button class="overlay-btn primary" onclick="hideOverlay()">Done</button>
+    </div>
+  </div>`);
 };
 
 // ============================================================
