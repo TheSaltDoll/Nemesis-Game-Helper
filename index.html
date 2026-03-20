@@ -24,7 +24,7 @@ body{display:flex;flex-direction:column}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);pointer-events:none;z-index:9999}
 
 header{text-align:center;padding:10px 16px 6px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0f0f14,var(--bg));flex-shrink:0}
-header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-spacing:6px;text-transform:uppercase;color:var(--accent);text-shadow:0 0 20px rgba(196,255,0,0.3)}
+header h1{font-family:var(--font-display);font-size:22px;font-weight:900;letter-spacing:6px;text-transform:uppercase;color:var(--accent);text-shadow:0 0 20px rgba(196,255,0,0.3)}
 .header-status{margin-top:4px;font-size:16px;letter-spacing:1px;color:var(--text-dim);text-align:center;line-height:1.5}
 .header-status .status-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .header-status span{color:var(--accent)}
@@ -35,30 +35,30 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 
 .setup-center{justify-content:center;align-items:center;padding:24px;gap:24px}
 .setup-title{font-family:var(--font-display);font-size:20px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--accent);text-shadow:0 0 30px rgba(196,255,0,0.25);text-align:center}
-.setup-subtitle{font-size:18px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;text-align:center}
+.setup-subtitle{font-size:22px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;text-align:center}
 .player-select{display:flex;gap:10px}
 .player-btn{width:54px;height:54px;border:2px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-dim);font-family:var(--font-display);font-size:20px;font-weight:700;cursor:pointer;transition:all 0.2s}
 .player-btn:hover,.player-btn.selected{border-color:var(--accent);color:var(--accent);background:rgba(196,255,0,0.05);box-shadow:0 0 20px rgba(196,255,0,0.1)}
-.nav-btn{padding:12px 40px;border:2px solid var(--accent);border-radius:6px;background:rgba(196,255,0,0.08);color:var(--accent);font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:4px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;opacity:0.3;pointer-events:none}
+.nav-btn{padding:12px 40px;border:2px solid var(--accent);border-radius:6px;background:rgba(196,255,0,0.08);color:var(--accent);font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:4px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;opacity:0.3;pointer-events:none}
 .nav-btn.ready{opacity:1;pointer-events:auto}
 .nav-btn.ready:hover{background:rgba(196,255,0,0.15);box-shadow:0 0 30px rgba(196,255,0,0.2)}
 
 .name-form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px}
 .name-row{display:flex;align-items:center;gap:10px}
-.name-row label{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;color:var(--accent);white-space:nowrap;width:90px}
-.name-row input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font-mono);font-size:18px;outline:none;transition:border-color 0.2s}
+.name-row label{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:2px;color:var(--accent);white-space:nowrap;width:90px}
+.name-row input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font-mono);font-size:22px;outline:none;transition:border-color 0.2s}
 .name-row input:focus{border-color:var(--accent)}
 .name-row input::placeholder{color:var(--text-dim)}
 
 .setup-info{width:100%;max-width:388px}
 .setup-info-section{margin-bottom:16px}
-.setup-info-section h3{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
-.setup-info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:18px}
+.setup-info-section h3{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.setup-info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:22px}
 .setup-info-row .lbl{color:var(--text-dim)}
 .setup-info-row .val{color:var(--text);text-align:right;max-width:55%}
 
 #main-screen{padding:0}
-.phase-banner{text-align:center;padding:8px;font-family:var(--font-display);font-size:18px;letter-spacing:4px;text-transform:uppercase;border-bottom:1px solid var(--border);flex-shrink:0}
+.phase-banner{text-align:center;padding:8px;font-family:var(--font-display);font-size:22px;letter-spacing:4px;text-transform:uppercase;border-bottom:1px solid var(--border);flex-shrink:0}
 .phase-banner.player-phase{color:var(--accent);background:rgba(196,255,0,0.03)}
 .phase-banner.event-phase{color:var(--creeper);background:rgba(51,204,255,0.03)}
 
@@ -74,7 +74,7 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 .actions-area{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:10px 12px;align-content:start}
 .section-label{display:none}
 
-.action-btn{width:100%;max-width:none;height:50px;padding:10px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font-mono);font-size:18px;text-align:left;cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden;display:flex;align-items:center}
+.action-btn{width:100%;max-width:none;height:50px;padding:10px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font-mono);font-size:22px;text-align:left;cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden;display:flex;align-items:center}
 .action-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
 .action-btn:hover{border-color:var(--text-dim);background:var(--surface2)}
 .action-btn .label{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;line-height:1.3}
@@ -91,7 +91,7 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 .act-dim::before{background:var(--text-dim)} .act-dim .label{color:var(--text-dim)}
 
 .reset-row{padding:6px 20px 8px;text-align:center;flex-shrink:0}
-.reset-btn{background:none;border:1px solid #2a1a1a;border-radius:4px;color:#663333;font-family:var(--font-mono);font-size:18px;letter-spacing:2px;padding:5px 14px;cursor:pointer;transition:all 0.2s}
+.reset-btn{background:none;border:1px solid #2a1a1a;border-radius:4px;color:#663333;font-family:var(--font-mono);font-size:22px;letter-spacing:2px;padding:5px 14px;cursor:pointer;transition:all 0.2s}
 .reset-btn:hover{border-color:var(--danger);color:var(--danger)}
 
 .overlay{display:none;position:fixed;inset:0;z-index:100;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,5,8,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px;animation:fadeIn 0.2s ease}
@@ -101,23 +101,23 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 @keyframes pulseGlow{0%,100%{filter:drop-shadow(0 0 10px var(--glow-color))}50%{filter:drop-shadow(0 0 25px var(--glow-color))}}
 
 .result-card{text-align:center;animation:slideUp 0.35s ease;max-width:388px;width:100%;max-height:85vh;overflow-y:auto}
-.result-type-label{font-family:var(--font-display);font-size:18px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px}
+.result-type-label{font-family:var(--font-display);font-size:22px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px}
 .result-image{width:100%;max-width:260px;border-radius:8px;border:2px solid var(--border);margin:0 auto 12px;display:block;--glow-color:#fff;animation:pulseGlow 2s ease-in-out infinite}
 .result-name{font-family:var(--font-display);font-size:22px;font-weight:900;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
-.result-initiative{font-size:18px;color:var(--text-dim);letter-spacing:2px;margin-bottom:14px}
+.result-initiative{font-size:22px;color:var(--text-dim);letter-spacing:2px;margin-bottom:14px}
 .result-initiative span{color:var(--accent);font-weight:bold}
-.result-message{font-size:18px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;padding:10px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);text-align:left}
+.result-message{font-size:22px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;padding:10px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);text-align:left}
 .result-message em{color:var(--text);font-style:normal}
 .result-message.centered{text-align:center}
 
-.overlay-btn{padding:10px 28px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.2s;margin:3px}
+.overlay-btn{padding:10px 28px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.2s;margin:3px}
 .overlay-btn:hover{border-color:var(--accent);color:var(--accent)}
 .overlay-btn.primary{border-color:var(--accent);color:var(--accent);background:rgba(196,255,0,0.06)}
 .overlay-btn.danger{border-color:var(--danger);color:var(--danger)}
 .overlay-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:6px}
 
 .type-options{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
-.type-btn{padding:10px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
+.type-btn{padding:10px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
 .type-btn:hover{background:var(--surface2)}
 .type-btn:disabled{opacity:0.2;pointer-events:none}
 .type-btn[data-type="Queen"]{color:var(--queen);border-color:var(--queen)}
@@ -126,17 +126,17 @@ header h1{font-family:var(--font-display);font-size:18px;font-weight:900;letter-
 .type-btn[data-type="Creeper"]{color:var(--creeper);border-color:var(--creeper)}
 
 .blank-icon{width:80px;height:80px;margin:0 auto 16px;border:2px dashed var(--blank);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:32px;color:var(--blank);opacity:0.6}
-.private-prompt{font-size:18px;color:var(--text-dim);margin:12px 0;text-align:center;line-height:1.6}
-.reveal-box{padding:16px;border:1px solid var(--accent);border-radius:8px;background:rgba(196,255,0,0.04);margin:12px 0;font-size:18px;color:var(--text);line-height:1.8}
+.private-prompt{font-size:22px;color:var(--text-dim);margin:12px 0;text-align:center;line-height:1.6}
+.reveal-box{padding:16px;border:1px solid var(--accent);border-radius:8px;background:rgba(196,255,0,0.04);margin:12px 0;font-size:22px;color:var(--text);line-height:1.8}
 
 .debug-area{flex-shrink:0;border-top:1px solid var(--border);background:var(--surface);padding:4px 16px}
 .debug-toggle{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
-.debug-toggle span{font-size:18px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+.debug-toggle span{font-size:22px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
 .debug-switch{width:28px;height:14px;border-radius:7px;background:var(--border);position:relative;transition:background 0.2s}
 .debug-switch::after{content:'';position:absolute;left:2px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--text-dim);transition:all 0.2s}
 .debug-toggle.on .debug-switch{background:var(--accent-dim)}
 .debug-toggle.on .debug-switch::after{left:16px;background:var(--accent)}
-.debug-contents{display:none;padding:6px 0 2px;font-size:18px;line-height:1.7;color:var(--text-dim);max-height:180px;overflow-y:auto}
+.debug-contents{display:none;padding:6px 0 2px;font-size:22px;line-height:1.7;color:var(--text-dim);max-height:180px;overflow-y:auto}
 .debug-contents.visible{display:block}
 .tag{display:inline-block;padding:1px 5px;border-radius:3px;font-size:8px;margin:1px;border:1px solid}
 .tag-Queen{color:var(--queen);border-color:var(--queen)}
@@ -641,7 +641,7 @@ function checkAllPlayersGone(){
     }
     return `<span style="color:var(--text-dim)">${p.name}: Unknown</span>`;
   }).join('<br>');
-  summary+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);text-align:left;font-size:18px;line-height:1.8">'+fates+'</div>';
+  summary+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);text-align:left;font-size:22px;line-height:1.8">'+fates+'</div>';
 
   showOverlay(`<div class="result-card"><div class="result-type-label">Game Over</div><div class="result-message centered">${summary}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();updateUI()">End Game</button></div></div>`);
 }
@@ -663,7 +663,7 @@ function doEncounter(){
     returnToSupply(t);const c=COLOR_MAP[t.name];
     let dispInit=t.initiative;
     let initNote='';
-    if(isWeaknessActive('Reaction to Danger')){dispInit=Math.max(1,dispInit-1);initNote='<br><span style="color:var(--warn);font-size:18px">(Reaction to Danger: \u22121 initiative)</span>'}
+    if(isWeaknessActive('Reaction to Danger')){dispInit=Math.max(1,dispInit-1);initNote='<br><span style="color:var(--warn);font-size:22px">(Reaction to Danger: \u22121 initiative)</span>'}
     showOverlay(`<div class="result-card"><div class="result-type-label">Encounter</div><img class="result-image" src="${IMAGE_MAP[t.name]}" alt="${t.name}" style="--glow-color:${c};border-color:${c}" onerror="this.style.display='none'"><div class="result-name" style="color:${c}">${t.name}</div><div class="result-initiative">Initiative: <span>${dispInit}</span>${initNote}</div><div class="result-message centered">This token is returned to the supply.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
   }
 }
@@ -674,12 +674,12 @@ function doEncounter(){
 function doRetreat(){
   const types=['Queen','Breeder','Adult','Creeper'];
   const btns=types.map(t=>`<button class="type-btn" data-type="${t}" ${supplyCount(t)===0?'disabled':''} onclick="doRetreatType('${t}')">${t} <span style="opacity:0.5">(${supplyCount(t)})</span></button>`).join('');
-  showOverlay(`<div class="result-card"><div class="result-type-label">Retreat to Vent</div><div class="result-name" style="color:var(--warn);font-size:18px">Select Intruder Type</div><div class="type-options">${btns}</div><div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Retreat to Vent</div><div class="result-name" style="color:var(--warn);font-size:22px">Select Intruder Type</div><div class="type-options">${btns}</div><div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Cancel</button></div></div>`);
 }
 window.doRetreatType=function(type){
   const t=getRandomFromSupply(type);if(!t)return;
   returnToBag(t);
-  showOverlay(`<div class="result-card"><div class="result-type-label">Retreat to Vent</div><div class="result-name" style="color:${COLOR_MAP[type]};font-size:18px">${t.name}</div><div class="result-initiative">Initiative: <span>${t.initiative}</span></div><div class="result-message centered">A <em>${t.name}</em> (init ${t.initiative}) added to the bag.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Retreat to Vent</div><div class="result-name" style="color:${COLOR_MAP[type]};font-size:22px">${t.name}</div><div class="result-initiative">Initiative: <span>${t.initiative}</span></div><div class="result-message centered">A <em>${t.name}</em> (init ${t.initiative}) added to the bag.</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
 };
 
 // ============================================================
@@ -710,7 +710,7 @@ function doBagDev(){
 }
 window.queenNest=function(yes){
   const t=window._pq;
-  if(yes){returnToSupply(t);showOverlay(`<div class="result-card"><div class="result-type-label">Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered" style="border-color:var(--queen)"><em style="color:var(--queen);font-size:18px">The Queen appears in the Nest!</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);}
+  if(yes){returnToSupply(t);showOverlay(`<div class="result-card"><div class="result-type-label">Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered" style="border-color:var(--queen)"><em style="color:var(--queen);font-size:22px">The Queen appears in the Nest!</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);}
   else{returnToBag(t);if(!G.nest.destroyed)G.nest.eggs++;updateUI();showOverlay(`<div class="result-card"><div class="result-type-label">Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered">Queen returned to the bag.<br><br><em style="color:var(--warn)">An Egg has been added to the Nest.</em> (Eggs: ${G.nest.eggs})</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);}
   window._pq=null;
 };
@@ -723,7 +723,7 @@ function doCheckEngine(){
 }
 window.revealEngine=function(n){
   const s=G.engines[n],col=s==='Working'?'var(--accent)':'var(--danger)';
-  showOverlay(`<div class="result-card"><div class="result-type-label">Engine ${n}</div><div class="private-prompt">For your eyes only!</div><div class="reveal-box" style="text-align:center"><span style="color:${col};font-family:var(--font-display);font-size:18px;letter-spacing:3px">${s.toUpperCase()}</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">Done</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Engine ${n}</div><div class="private-prompt">For your eyes only!</div><div class="reveal-box" style="text-align:center"><span style="color:${col};font-family:var(--font-display);font-size:22px;letter-spacing:3px">${s.toUpperCase()}</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">Done</button></div></div>`);
 };
 
 // ============================================================
@@ -860,7 +860,7 @@ window.enterHib=function(n){const p=G.players.find(x=>x.number===n);p.inHibernat
 // ============================================================
 function doEggs(){
   if(G.nest.destroyed){msg('Nest','The Nest is <em style="color:var(--danger)">DESTROYED</em>. No eggs can be added.');return}
-  showOverlay(`<div class="result-card"><div class="result-type-label">Nest Eggs</div><div class="private-prompt">Current: <em style="color:var(--warn);font-size:18px">${G.nest.eggs}</em></div><div class="type-options"><button class="type-btn" style="color:var(--accent);border-color:var(--accent)" onclick="chgEggs(1)">+ Add</button><button class="type-btn" style="color:var(--danger);border-color:var(--danger)" ${G.nest.eggs<=0?'disabled':''} onclick="chgEggs(-1)">\u2212 Remove</button></div><div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Done</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Nest Eggs</div><div class="private-prompt">Current: <em style="color:var(--warn);font-size:22px">${G.nest.eggs}</em></div><div class="type-options"><button class="type-btn" style="color:var(--accent);border-color:var(--accent)" onclick="chgEggs(1)">+ Add</button><button class="type-btn" style="color:var(--danger);border-color:var(--danger)" ${G.nest.eggs<=0?'disabled':''} onclick="chgEggs(-1)">\u2212 Remove</button></div><div class="overlay-actions"><button class="overlay-btn" onclick="hideOverlay()">Done</button></div></div>`);
 }
 window.chgEggs=function(d){
   G.nest.eggs+=d;
@@ -890,7 +890,7 @@ function doWeakness(){
 }
 window.revealWeak=function(k){
   G.discoveredWeaknesses.push(k);const w=G.weaknesses[k];
-  showOverlay(`<div class="result-card"><div class="result-type-label">Weakness Discovered</div><div class="result-name" style="color:var(--warn);font-size:18px">${w.name}</div><div class="result-message">${w.effect}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Weakness Discovered</div><div class="result-name" style="color:var(--warn);font-size:22px">${w.name}</div><div class="result-message">${w.effect}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
 };
 
 // ============================================================
@@ -941,9 +941,9 @@ function doExplore(){
   });
   updateUI();
   if(hasTurret){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="private-prompt">Was a Turret placed?</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="G.turretCount++;updateUI();hideOverlay();checkCatastrophe()">Yes, Turret Placed</button><button class="overlay-btn" onclick="hideOverlay();checkCatastrophe()">No</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:22px">Results</div><div class="result-message">${html}</div><div class="private-prompt">Was a Turret placed?</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="G.turretCount++;updateUI();hideOverlay();checkCatastrophe()">Yes, Turret Placed</button><button class="overlay-btn" onclick="hideOverlay();checkCatastrophe()">No</button></div></div>`);
   } else {
-    showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:18px">Results</div><div class="result-message">${html}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();checkCatastrophe()">OK</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Explore Room</div><div class="result-name" style="color:var(--creeper);font-size:22px">Results</div><div class="result-message">${html}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();checkCatastrophe()">OK</button></div></div>`);
   }
 }
 
@@ -963,14 +963,14 @@ window.rollHealth=function(type){
   let result=table[roll];
   const c=COLOR_MAP[type];
   let weakNote='';
-  if(result!=='Retreat'&&isWeaknessActive('Species on the Brink of Extinction')){result=Math.max(1,result-1);weakNote='<br><span style="color:var(--warn);font-size:18px">(Species on the Brink: \u22121 health)</span>'}
+  if(result!=='Retreat'&&isWeaknessActive('Species on the Brink of Extinction')){result=Math.max(1,result-1);weakNote='<br><span style="color:var(--warn);font-size:22px">(Species on the Brink: \u22121 health)</span>'}
   if(result==='Retreat'){
     const corr=rd(4)+1;
-    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">The ${type} <em style="color:var(--warn)">RETREATS</em>!<br>Corridor: <em style="color:var(--accent);font-size:16px">${corr}</em><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">The ${type} <em style="color:var(--warn)">RETREATS</em>!<br>Corridor: <em style="color:var(--accent);font-size:16px">${corr}</em><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
   } else {
     // For Queen: ask if killed
     const queenAsk=(type==='Queen')?`<div class="overlay-actions" style="margin-top:10px"><button class="overlay-btn danger" onclick="queenKilled()">Queen Was Killed</button></div>`:'';
-    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">Health: <em style="color:var(--danger);font-size:20px">${result}</em>${weakNote}<br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div>${queenAsk}<div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Attack \u2014 ${type}</div><div class="result-name" style="color:${c}">${type}</div><div class="result-message centered">Health: <em style="color:var(--danger);font-size:20px">${result}</em>${weakNote}<br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div>${queenAsk}<div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
   }
 };
 window.queenKilled=function(){
@@ -1004,11 +1004,11 @@ window.rollIntruderAttack=function(type){
   }
   if(result.startsWith('Bite')&&isWeaknessActive('The Way of Fighting')){
     result='Bite: 1 Light Wound (Way of Fighting)';
-    weakNote='<br><span style="color:var(--warn);font-size:18px">(The Way of Fighting: Bite deals Light Wound)</span>';
+    weakNote='<br><span style="color:var(--warn);font-size:22px">(The Way of Fighting: Bite deals Light Wound)</span>';
   }
   const isMiss=result==='-- miss --';
   const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
-  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:18px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:18px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:22px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:22px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
 };
 
 // ============================================================
@@ -1041,7 +1041,7 @@ function doSummonDraw(returnAction,label){
 // TRANSFORMATION — Optional Breeder follow-up attack
 // ============================================================
 function showTransformationResult(result,roll,returnAction,returnLabel){
-  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 Creeper</div><div class="result-name" style="color:var(--creeper);font-size:18px">Creeper</div><div class="result-message centered"><span style="color:var(--warn);font-size:14px">${result}</span><br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="private-prompt">Does the new Breeder Attack?</div><div class="overlay-actions"><button class="overlay-btn danger" onclick="doBreederFollowUp('${returnAction}','${returnLabel}')">Yes, Breeder Attacks</button><button class="overlay-btn" onclick="${returnAction}">${returnLabel}</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 Creeper</div><div class="result-name" style="color:var(--creeper);font-size:22px">Creeper</div><div class="result-message centered"><span style="color:var(--warn);font-size:14px">${result}</span><br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="private-prompt">Does the new Breeder Attack?</div><div class="overlay-actions"><button class="overlay-btn danger" onclick="doBreederFollowUp('${returnAction}','${returnLabel}')">Yes, Breeder Attacks</button><button class="overlay-btn" onclick="${returnAction}">${returnLabel}</button></div></div>`);
 }
 
 window.doBreederFollowUp=function(returnAction,returnLabel){
@@ -1058,7 +1058,7 @@ window.doBreederFollowUp=function(returnAction,returnLabel){
   }
   const isMiss=result==='-- miss --';
   const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
-  showOverlay(`<div class="result-card"><div class="result-type-label">Breeder Attack (Transformed)</div><div class="result-name" style="color:${c};font-size:18px">Breeder</div><div class="result-message centered"><span style="color:${col};font-size:14px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${returnAction}">${returnLabel}</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Breeder Attack (Transformed)</div><div class="result-name" style="color:${c};font-size:22px">Breeder</div><div class="result-message centered"><span style="color:${col};font-size:14px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="${returnAction}">${returnLabel}</button></div></div>`);
 };
 
 // ============================================================
@@ -1066,7 +1066,7 @@ window.doBreederFollowUp=function(returnAction,returnLabel){
 // ============================================================
 function doCrawl(){
   const roll=rd(10),r=VENT_TABLE[roll];
-  showOverlay(`<div class="result-card"><div class="result-type-label">Crawl through Vents</div><div class="result-name" style="color:var(--creeper);font-size:18px">${r.name}</div><div class="result-message">${r.effect}<br><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/10</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Crawl through Vents</div><div class="result-name" style="color:var(--creeper);font-size:22px">${r.name}</div><div class="result-message">${r.effect}<br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/10</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay()">OK</button></div></div>`);
 }
 
 // ============================================================
@@ -1110,17 +1110,17 @@ function eventStep1_TimeMark(){
       if(p.inEscapePod){const pod=G.escapePods.find(x=>x.occupants.includes(p.number));return `<span style="color:var(--accent)">${p.name}: Escaped (Pod ${pod?pod.id:'?'})</span>`}
       return `<span style="color:var(--text-dim)">${p.name}: Unknown</span>`;
     }).join('<br>');
-    announcements.push('<div style="padding-top:8px;border-top:1px solid var(--border);text-align:left;font-size:18px;line-height:1.8">'+fates+'</div>');
+    announcements.push('<div style="padding-top:8px;border-top:1px solid var(--border);text-align:left;font-size:22px;line-height:1.8">'+fates+'</div>');
   }
 
   updateUI();
   const annHtml=announcements.length?'<div style="margin-top:8px">'+announcements.join('<br><br>')+'</div>':'';
   if(gameEnd){
     G.gameOver=true;
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Time</div><div class="result-message centered">Time Mark: <em style="color:var(--accent);font-size:18px">${G.timeMark}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();updateUI()">End Game</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Time</div><div class="result-message centered">Time Mark: <em style="color:var(--accent);font-size:22px">${G.timeMark}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();updateUI()">End Game</button></div></div>`);
     return;
   }
-  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Step 1: Time</div><div class="result-message centered">Time Mark decreased to <em style="color:var(--accent);font-size:18px">${G.timeMark}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep2_SelfDestruct()">Next</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Step 1: Time</div><div class="result-message centered">Time Mark decreased to <em style="color:var(--accent);font-size:22px">${G.timeMark}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep2_SelfDestruct()">Next</button></div></div>`);
 }
 
 // --- STEP 2: Self-Destruct Timer ---
@@ -1154,23 +1154,23 @@ function eventStep2_SelfDestruct(){
       if(p.inEscapePod){const pod=G.escapePods.find(x=>x.occupants.includes(p.number));return `<span style="color:var(--accent)">${p.name}: Escaped (Pod ${pod?pod.id:'?'})</span>`}
       return `<span style="color:var(--text-dim)">${p.name}: Unknown</span>`;
     }).join('<br>');
-    announcements.push('<div style="padding-top:8px;border-top:1px solid var(--border);text-align:left;font-size:18px;line-height:1.8">'+fates+'</div>');
+    announcements.push('<div style="padding-top:8px;border-top:1px solid var(--border);text-align:left;font-size:22px;line-height:1.8">'+fates+'</div>');
   }
 
   updateUI();
   const annHtml=announcements.length?'<br><br>'+announcements.join('<br><br>'):'';
   if(gameEnd){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Self-Destruct</div><div class="result-message centered" style="border-color:var(--danger)">Self-Destruct Timer: <em style="color:var(--danger);font-size:18px">${G.selfDestruct.timer}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();updateUI()">End Game</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Self-Destruct</div><div class="result-message centered" style="border-color:var(--danger)">Self-Destruct Timer: <em style="color:var(--danger);font-size:22px">${G.selfDestruct.timer}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="hideOverlay();updateUI()">End Game</button></div></div>`);
     return;
   }
-  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Step 2: Self-Destruct</div><div class="result-message centered" style="border-color:var(--danger)">Self-Destruct Timer: <em style="color:var(--danger);font-size:18px">${G.selfDestruct.timer}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep3_Alert()">Next</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Step 2: Self-Destruct</div><div class="result-message centered" style="border-color:var(--danger)">Self-Destruct Timer: <em style="color:var(--danger);font-size:22px">${G.selfDestruct.timer}</em>${annHtml}</div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep3_Alert()">Next</button></div></div>`);
 }
 
 // --- STEP 3: Alert Check ---
 function eventStep3_Alert(){
   if(!G.currentAlert){eventStep4_IntruderAttacks();return}
 
-  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Step 3: Alert</div><div class="result-name" style="color:var(--warn);font-size:18px">${G.currentAlert.name}</div><div class="result-message">${G.currentAlert.text}<br><br>Timer: <em style="color:var(--danger)">${G.currentAlert.timer}</em></div><div class="private-prompt">Has this Alert been completed?</div><div class="overlay-actions"><button class="overlay-btn" style="border-color:var(--accent);color:var(--accent)" onclick="alertCompleted()">Yes, Completed</button><button class="overlay-btn danger" onclick="alertFailed()">No, Not Completed</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Step 3: Alert</div><div class="result-name" style="color:var(--warn);font-size:22px">${G.currentAlert.name}</div><div class="result-message">${G.currentAlert.text}<br><br>Timer: <em style="color:var(--danger)">${G.currentAlert.timer}</em></div><div class="private-prompt">Has this Alert been completed?</div><div class="overlay-actions"><button class="overlay-btn" style="border-color:var(--accent);color:var(--accent)" onclick="alertCompleted()">Yes, Completed</button><button class="overlay-btn danger" onclick="alertFailed()">No, Not Completed</button></div></div>`);
 }
 
 window.alertCompleted=function(){
@@ -1207,11 +1207,11 @@ window.eventRollAttack=function(type){
   }
   if(result.startsWith('Bite')&&isWeaknessActive('The Way of Fighting')){
     result='Bite: 1 Light Wound (Way of Fighting)';
-    weakNote='<br><span style="color:var(--warn);font-size:18px">(The Way of Fighting: Bite deals Light Wound)</span>';
+    weakNote='<br><span style="color:var(--warn);font-size:22px">(The Way of Fighting: Bite deals Light Wound)</span>';
   }
   const isMiss=result==='-- miss --';
   const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
-  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:18px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:18px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep4_IntruderAttacks()">Back to Attacks</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:22px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:22px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep4_IntruderAttacks()">Back to Attacks</button></div></div>`);
 };
 
 // --- STEP 5: Fire & Turrets ---
@@ -1229,9 +1229,9 @@ window.eventRollMove=function(moveType){
   const result=MOVE_TABLE[moveType][roll];
   const displayType=moveType==='Adult/Queen'?moveType:moveType;
   if(result===0){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Movement \u2014 ${displayType}</div><div class="result-message centered"><em style="color:var(--text-dim);font-size:16px">\u2014 No Move \u2014</em><br><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep6_IntruderMovement()">Back to Movement</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Movement \u2014 ${displayType}</div><div class="result-message centered"><em style="color:var(--text-dim);font-size:16px">\u2014 No Move \u2014</em><br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep6_IntruderMovement()">Back to Movement</button></div></div>`);
   } else {
-    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Movement \u2014 ${displayType}</div><div class="result-message centered">Moves along Corridor: <em style="color:var(--accent);font-size:24px">${result}</em><br><br><span style="color:var(--text-dim);font-size:18px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep6_IntruderMovement()">Back to Movement</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Movement \u2014 ${displayType}</div><div class="result-message centered">Moves along Corridor: <em style="color:var(--accent);font-size:24px">${result}</em><br><br><span style="color:var(--text-dim);font-size:22px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep6_IntruderMovement()">Back to Movement</button></div></div>`);
   }
 };
 
@@ -1251,7 +1251,7 @@ function eventStep7_EventAndAlert(){
   } else {
     G.eventDiscard.push(event);
   }
-  const baseHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;letter-spacing:2px;color:var(--creeper)">${event.name}</div><div style="font-size:18px;line-height:1.5;color:var(--text-dim)">${event.text}${removeMsg}</div>`;
+  const baseHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:22px;letter-spacing:2px;color:var(--creeper)">${event.name}</div><div style="font-size:22px;line-height:1.5;color:var(--text-dim)">${event.text}${removeMsg}</div>`;
   window._eventBaseHtml=baseHtml;
 
   // Check for interactive events
@@ -1270,13 +1270,13 @@ function doAlertCheckAndShow(eventHtml){
   if(!alertBlocked&&alertRoll<0.2){
     const alert=G.alertDeck.shift();
     G.currentAlert={name:alert.name,text:alert.text,timer:5};
-    alertHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;letter-spacing:2px;color:var(--danger)">\u26A0 ALERT TRIGGERED!</div><div style="margin-bottom:4px;font-family:var(--font-display);font-size:18px;color:var(--warn)">${G.currentAlert.name}</div><div style="font-size:18px;line-height:1.5;color:var(--text-dim)">${G.currentAlert.text}<br>Alert Timer: <em style="color:var(--danger)">5</em></div>`;
+    alertHtml=`<div style="margin-bottom:4px;font-family:var(--font-display);font-size:22px;letter-spacing:2px;color:var(--danger)">\u26A0 ALERT TRIGGERED!</div><div style="margin-bottom:4px;font-family:var(--font-display);font-size:22px;color:var(--warn)">${G.currentAlert.name}</div><div style="font-size:22px;line-height:1.5;color:var(--text-dim)">${G.currentAlert.text}<br>Alert Timer: <em style="color:var(--danger)">5</em></div>`;
   } else {
     const reason=G.currentAlert?'An alert is already active.':G.timeMark<=8?'Alerts ignored at Time Mark 8 or lower.':G.alertDeck.length===0?'No alerts remaining.':'No alert triggered.';
-    alertHtml=`<div style="color:var(--text-dim);font-size:18px">${reason}</div>`;
+    alertHtml=`<div style="color:var(--text-dim);font-size:22px">${reason}</div>`;
   }
   updateUI();
-  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Event & Alert</div><div class="result-message"><div style="padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--border)"><div style="font-family:var(--font-display);font-size:18px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Event Card</div>${eventHtml}</div><div><div style="font-family:var(--font-display);font-size:18px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Alert Check</div>${alertHtml}</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep9_BagDev()">Next</button></div></div>`);
+  showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Event & Alert</div><div class="result-message"><div style="padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--border)"><div style="font-family:var(--font-display);font-size:22px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Event Card</div>${eventHtml}</div><div><div style="font-family:var(--font-display);font-size:22px;letter-spacing:3px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase">Alert Check</div>${alertHtml}</div></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep9_BagDev()">Next</button></div></div>`);
 }
 
 // Interactive event: show event with special actions, then proceed
@@ -1437,7 +1437,7 @@ window.eventEncounterDraw=function(){
 
 window.eventEncounterAttack=function(type){
   if(type==='Larva'){
-    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 Larva</div><div class="result-name" style="color:var(--larva);font-size:18px">Larva</div><div class="result-message centered"><em style="color:var(--warn)">The attacked Character is now Infested.</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 Larva</div><div class="result-name" style="color:var(--larva);font-size:22px">Larva</div><div class="result-message centered"><em style="color:var(--warn)">The attacked Character is now Infested.</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
   } else {
     const roll=rd(20),c=COLOR_MAP[type];
     let result=ATTACK_TABLE[type][roll];
@@ -1456,7 +1456,7 @@ window.eventEncounterAttack=function(type){
     }
     const isMiss=result==='-- miss --';
     const col=isMiss?'var(--text-dim)':result.includes('Frenzy')||result.includes('Tail')||result.includes('Serious')?'var(--danger)':'var(--warn)';
-    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:18px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:14px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Intruder Attack \u2014 ${type}</div><div class="result-name" style="color:${c};font-size:22px">${type}</div><div class="result-message centered"><span style="color:${col};font-size:14px">${result}</span>${weakNote}<br><br><span style="color:var(--text-dim);font-size:12px">Roll: ${roll+1}/20</span></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventEncounterLoop(window._eventEncounterHtml)">Continue</button></div></div>`);
   }
 };
 
@@ -1496,7 +1496,7 @@ window.epQueenNest=function(yes){
   const t=window._epQueen;
   if(yes){
     returnToSupply(t);updateUI();
-    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered" style="border-color:var(--queen)"><em style="color:var(--queen);font-size:18px">The Queen appears in the Nest!</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep10_RoundEnd()">Next</button></div></div>`);
+    showOverlay(`<div class="result-card"><div class="result-type-label">Event Phase \u2014 Bag Development</div><div class="result-name" style="color:var(--queen)">Queen</div><div class="result-message centered" style="border-color:var(--queen)"><em style="color:var(--queen);font-size:22px">The Queen appears in the Nest!</em></div><div class="overlay-actions"><button class="overlay-btn primary" onclick="eventStep10_RoundEnd()">Next</button></div></div>`);
   } else {
     returnToBag(t);
     if(!G.nest.destroyed)G.nest.eggs++;
